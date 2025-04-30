@@ -10,9 +10,7 @@ authors = [
     { name = "Tiago Silva", email = "eng.tiago.silva@gmail.com" }
 ]
 dependencies = [
-    "tqdm",
-    "mailbox",
-    "email",
+    "tqdm"
 ]
 requires-python = ">=3.7"
 
