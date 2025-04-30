@@ -53,7 +53,7 @@ def extract_attachments(mbox_file, output_dir):
 
     print(f"Extracted {attachment_count} attachments to '{output_dir}'.")
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description="Recursively extract attachments from all .mbox files under a given path."
     )
@@ -67,3 +67,6 @@ if __name__ == "__main__":
         mbox_dir = os.path.splitext(mbox_path)[0]
         print(f"Found mbox: {mbox_path} -> extracting to {mbox_dir}")
         extract_attachments(mbox_path, mbox_dir)
+
+if __name__ == "__main__":
+    main()
