@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mbox-extractor"
+version = "0.1.0"
+description = "Recursively extract attachments from .mbox files"
+authors = [
+    { name = "Tiago Silva", email = "eng.tiago.silva@gmail.com" }
+]
+dependencies = [
+    "tqdm",
+]
+requires-python = ">=3.7"
+
+[project.scripts]
+mbox-extractor = "main:__main__"
