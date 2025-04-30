@@ -11,6 +11,8 @@ authors = [
 ]
 dependencies = [
     "tqdm",
+    "mailbox",
+    "email",
 ]
 requires-python = ">=3.7"
 
