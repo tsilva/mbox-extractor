@@ -15,7 +15,7 @@ Attachments are sanitized for safe filenames, and progress is displayed using a 
 ## 🚀 Installation
 
 ```bash
-pipx install . --force
+uv tool install .
 ```
 
 ## 🛠️ Usage
