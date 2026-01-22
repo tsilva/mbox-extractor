@@ -1,36 +1,63 @@
-# 📦 mbox-extractor
+<div align="center">
+  <img src="logo.png" alt="mbox-extractor" width="256"/>
 
-<p align="center">
-  <img src="logo.png" alt="Logo" width="400"/>
-</p>
+  # mbox-extractor
 
-🔹 Effortlessly extract all attachments from .mbox files in any directory tree
+  [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+  [![Python](https://img.shields.io/badge/python-3.7+-blue.svg)](https://python.org)
 
-## 📖 Overview
+  **📬 Recursively extract all attachments from .mbox email archives with a single command**
 
-mbox-extractor is a command-line tool that recursively scans a directory for `.mbox` files and extracts all email attachments found within them. Each attachment is saved to a folder named after its source `.mbox` file, with filenames made unique using a short hash to prevent overwriting. This tool is ideal for archiving or analyzing email attachments in bulk.
+</div>
 
-Attachments are sanitized for safe filenames, and progress is displayed using a modern progress bar for large mailboxes.
+## Features
 
-## 🚀 Installation
+- **Recursive scanning** - Finds all `.mbox` files in any directory tree
+- **Safe filenames** - Sanitizes attachment names, removing illegal characters
+- **No duplicates** - Uses content-based hashing to prevent overwrites
+- **Progress display** - Visual progress bar for large mailboxes
+
+## Quick Start
 
 ```bash
+uv tool install mbox-extractor
+```
+
+```bash
+mbox-extractor /path/to/emails
+```
+
+## Installation
+
+### Using uv (recommended)
+
+```bash
+uv tool install mbox-extractor
+```
+
+### Using pip
+
+```bash
+pip install mbox-extractor
+```
+
+### From source
+
+```bash
+git clone https://github.com/tsilva/mbox-extractor.git
+cd mbox-extractor
 uv tool install .
 ```
 
-## 🛠️ Usage
+## Usage
 
-Extract all attachments from `.mbox` files under a directory (recursively):
+Extract all attachments from `.mbox` files under a directory:
 
 ```bash
 mbox-extractor /path/to/search
 ```
 
-- Replace `/path/to/search` with the directory or file you want to scan.
-- Attachments from each `.mbox` file will be saved in a folder named after the `.mbox` file (without the extension).
-- Filenames are made unique by appending a short hash.
-
-Example output:
+Attachments from each `.mbox` file are saved to a folder with the same name:
 
 ```
 Found mbox: /emails/archive.mbox -> extracting to /emails/archive
@@ -38,6 +65,20 @@ Extracting archive.mbox: 100%|████████████████�
 Extracted 42 attachments to '/emails/archive'.
 ```
 
-## 📄 License
+### How It Works
 
-This project is licensed under the [MIT License](LICENSE).
+1. Recursively scans the given path for `.mbox` files
+2. Opens each mailbox and iterates through all messages
+3. Extracts attachments with sanitized, unique filenames
+4. Saves them to a folder named after the source `.mbox` file
+
+Filenames are made unique by appending an 8-character MD5 hash of the file content, preventing overwrites when multiple attachments share the same name.
+
+## Requirements
+
+- Python 3.7+
+- tqdm (installed automatically)
+
+## License
+
+[MIT](LICENSE)
