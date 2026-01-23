@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo.png" alt="mbox-extractor" width="256"/>
+  <img src="logo.png" alt="mbox-extractor" width="512"/>
 
   # mbox-extractor
 
