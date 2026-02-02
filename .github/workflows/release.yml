@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
 
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 permissions:
   contents: write
   id-token: write
@@ -11,8 +15,7 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
-    outputs:
-      created: ${{ steps.check.outputs.exists == 'false' }}
+    environment: pypi
     steps:
       - uses: actions/checkout@v4
       - name: Get version
@@ -25,6 +28,7 @@ jobs:
         id: check
         run: |
           if gh release view "${{ steps.version.outputs.tag }}" &>/dev/null; then
+            echo "Release ${{ steps.version.outputs.tag }} already exists, skipping."
             echo "exists=true" >> "$GITHUB_OUTPUT"
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
@@ -36,14 +40,10 @@ jobs:
         run: gh release create "${{ steps.version.outputs.tag }}" --title "${{ steps.version.outputs.tag }}" --generate-notes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  publish:
-    needs: release
-    if: needs.release.outputs.created == 'true'
-    runs-on: ubuntu-latest
-    environment: pypi
-    steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v4
+      - name: Build and publish to PyPI
+        if: steps.check.outputs.exists == 'false'
+        uses: astral-sh/setup-uv@v4
       - run: uv build
+        if: steps.check.outputs.exists == 'false'
       - uses: pypa/gh-action-pypi-publish@release/v1
+        if: steps.check.outputs.exists == 'false'
