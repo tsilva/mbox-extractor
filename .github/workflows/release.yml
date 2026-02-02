@@ -11,5 +11,5 @@ concurrency:
 
 jobs:
   release:
-    uses: tsilva/.github/.github/workflows/release.yml@main
+    uses: tsilva/.github/workflows/release.yml@main
     secrets: inherit
