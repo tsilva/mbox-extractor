@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mbox-extractor"
-version = "0.1.10"
+version = "0.1.11"
 description = "📬 Recursively extract all attachments from .mbox email archives with a single command"
 readme = "README.md"
 license = { text = "MIT" }
