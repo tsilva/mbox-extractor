@@ -47,6 +47,7 @@ pip install mbox-extractor
 git clone https://github.com/tsilva/mbox-extractor.git
 cd mbox-extractor
 uv tool install .
+pre-commit install
 ```
 
 ## Usage
