@@ -40,10 +40,12 @@ jobs:
         run: gh release create "${{ steps.version.outputs.tag }}" --title "${{ steps.version.outputs.tag }}" --generate-notes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and publish to PyPI
+      - name: Setup uv
         if: steps.check.outputs.exists == 'false'
         uses: astral-sh/setup-uv@v4
-      - run: uv build
+      - name: Build package
         if: steps.check.outputs.exists == 'false'
-      - uses: pypa/gh-action-pypi-publish@release/v1
+        run: uv build
+      - name: Publish to PyPI
         if: steps.check.outputs.exists == 'false'
+        uses: pypa/gh-action-pypi-publish@release/v1
