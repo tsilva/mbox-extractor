@@ -25,6 +25,12 @@ jobs:
           VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Update repo description
+        run: |
+          DESC=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['description'])")
+          gh repo edit --description "$DESC"
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
       - name: Check if tag exists
         id: check
         run: |
