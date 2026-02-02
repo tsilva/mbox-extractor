@@ -3,6 +3,7 @@ name: Release
 on:
   push:
     branches: [main]
+    paths: [pyproject.toml]
 
 concurrency:
   group: release
@@ -27,25 +28,22 @@ jobs:
       - name: Check if tag exists
         id: check
         run: |
-          if gh release view "${{ steps.version.outputs.tag }}" &>/dev/null; then
-            echo "Release ${{ steps.version.outputs.tag }} already exists, skipping."
+          if git tag -l "${{ steps.version.outputs.tag }}" | grep -q .; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create release
-        if: steps.check.outputs.exists == 'false'
-        run: gh release create "${{ steps.version.outputs.tag }}" --title "${{ steps.version.outputs.tag }}" --generate-notes
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup uv
         if: steps.check.outputs.exists == 'false'
         uses: astral-sh/setup-uv@v4
       - name: Build package
         if: steps.check.outputs.exists == 'false'
         run: uv build
+      - name: Create release
+        if: steps.check.outputs.exists == 'false'
+        run: gh release create "${{ steps.version.outputs.tag }}" --title "${{ steps.version.outputs.tag }}" --generate-notes dist/*
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to PyPI
         if: steps.check.outputs.exists == 'false'
         uses: pypa/gh-action-pypi-publish@release/v1
