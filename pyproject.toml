@@ -27,7 +27,4 @@ Homepage = "https://github.com/tsilva/mbox-extractor"
 Repository = "https://github.com/tsilva/mbox-extractor"
 
 [project.scripts]
-mbox-extractor = "main:main"
-
-[tool.hatch.build.targets.wheel]
-include = ["main.py"]
+mbox-extractor = "mbox_extractor:main"
