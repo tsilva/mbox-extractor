@@ -4,7 +4,7 @@
   # mbox-extractor
 
   [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-  [![Python](https://img.shields.io/badge/python-3.7+-blue.svg)](https://python.org)
+  [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://python.org)
 
   **📬 Recursively extract all attachments from .mbox email archives with a single command**
 
@@ -75,9 +75,36 @@ Extracted 42 attachments to '/emails/archive'.
 
 Filenames are made unique by appending an 8-character MD5 hash of the file content, preventing overwrites when multiple attachments share the same name.
 
+## Programmatic Usage
+
+You can also use mbox-extractor as a library in your Python code:
+
+```python
+from mbox_extractor import extract_attachments, find_mbox_files
+
+# Find and process all .mbox files in a directory
+for mbox_path in find_mbox_files("/path/to/emails"):
+    extract_attachments(mbox_path, "/output/directory")
+
+# Extract from a single .mbox file
+extract_attachments("/path/to/archive.mbox", "/output/directory")
+
+# Extract without progress bar (for scripts/automation)
+count = extract_attachments("/path/to/archive.mbox", "/output", show_progress=False)
+print(f"Extracted {count} attachments")
+```
+
+### Available Functions
+
+| Function | Description |
+|----------|-------------|
+| `find_mbox_files(path)` | Recursively yields paths to all `.mbox` files |
+| `extract_attachments(mbox_file, output_dir, show_progress=True)` | Extracts attachments, returns count |
+| `sanitize_filename(filename)` | Removes illegal characters from filenames |
+
 ## Requirements
 
-- Python 3.7+
+- Python 3.12+
 - tqdm (installed automatically)
 
 ## License
