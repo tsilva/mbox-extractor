@@ -80,27 +80,30 @@ Filenames are made unique by appending an 8-character MD5 hash of the file conte
 You can also use mbox-extractor as a library in your Python code:
 
 ```python
-from mbox_extractor import extract_attachments, find_mbox_files
+from mbox_extractor import extract_mbox
 
-# Find and process all .mbox files in a directory
-for mbox_path in find_mbox_files("/path/to/emails"):
-    extract_attachments(mbox_path, "/output/directory")
+# Extract with default output directory (creates /path/to/archive/ from /path/to/archive.mbox)
+count = extract_mbox("/path/to/archive.mbox")
 
-# Extract from a single .mbox file
-extract_attachments("/path/to/archive.mbox", "/output/directory")
+# Extract to a custom output directory
+count = extract_mbox("/path/to/archive.mbox", output_dir="/custom/output")
 
 # Extract without progress bar (for scripts/automation)
-count = extract_attachments("/path/to/archive.mbox", "/output", show_progress=False)
-print(f"Extracted {count} attachments")
+count = extract_mbox("/path/to/archive.mbox", show_progress=False)
 ```
 
-### Available Functions
+### API
 
-| Function | Description |
-|----------|-------------|
-| `find_mbox_files(path)` | Recursively yields paths to all `.mbox` files |
-| `extract_attachments(mbox_file, output_dir, show_progress=True)` | Extracts attachments, returns count |
-| `sanitize_filename(filename)` | Removes illegal characters from filenames |
+```python
+extract_mbox(mbox_path: str, output_dir: str | None = None, show_progress: bool = True) -> int
+```
+
+| Parameter | Description |
+|-----------|-------------|
+| `mbox_path` | Absolute path to the `.mbox` file |
+| `output_dir` | Output directory (default: same name as mbox file, without extension) |
+| `show_progress` | Show progress bar (default: `True`) |
+| **Returns** | Number of attachments extracted |
 
 ## Requirements
 

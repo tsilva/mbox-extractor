@@ -25,7 +25,7 @@ mbox-extractor /path/to/search
 Test during development:
 
 ```bash
-python -c "from mbox_extractor import extract_attachments; print('OK')"
+python -c "from mbox_extractor import extract_mbox; print('OK')"
 ```
 
 ## Architecture
@@ -52,14 +52,42 @@ mbox_extractor/
 
 ### Public API
 
-The package exports these functions via `mbox_extractor/__init__.py`:
-- `extract_attachments(mbox_file, output_dir, show_progress=True)` - Main extraction function
-- `find_mbox_files(root_path)` - Generator yielding .mbox file paths
-- `sanitize_filename(filename)` - Clean filenames for filesystem
-- `main()` - CLI entry point
+The package exports a single function via `mbox_extractor/__init__.py`:
+
+```python
+def extract_mbox(mbox_path: str, output_dir: str | None = None, show_progress: bool = True) -> int:
+    """
+    Extract attachments from an mbox file.
+
+    Args:
+        mbox_path: Absolute path to the .mbox file
+        output_dir: Optional output directory. If None, creates a directory
+                    with the same name as the mbox file (without extension)
+                    in the same location as the mbox file.
+        show_progress: Whether to display progress bar (default: True)
+
+    Returns:
+        Number of attachments extracted
+    """
+```
+
+**Usage Examples:**
+
+```python
+from mbox_extractor import extract_mbox
+
+# Extract with default output directory (creates /path/to/file/ from /path/to/file.mbox)
+count = extract_mbox("/path/to/file.mbox")
+
+# Extract to custom output directory
+count = extract_mbox("/path/to/file.mbox", output_dir="/custom/output")
+
+# Headless/automated usage (no progress bar)
+count = extract_mbox("/path/to/file.mbox", show_progress=False)
+```
 
 **Key Design Points:**
-- Each `.mbox` file's attachments are saved to a folder with the same name as the `.mbox` file (without extension)
+- By default, attachments are saved to a folder with the same name as the `.mbox` file (without extension)
 - Filenames are made unique using content-based hashing (MD5) to prevent overwriting duplicate filenames
 - Progress display uses `tqdm` for visual feedback on large mailboxes
 - `show_progress=False` can be used for headless/automated usage
@@ -80,4 +108,4 @@ The package exports these functions via `mbox_extractor/__init__.py`:
 
 - README.md must be kept up to date with any significant project changes
 - The tool uses `email.policy.default` for modern email parsing
-- The `get_unique_filepath` function in `core.py` is deprecated (MD5-based uniqueness replaced it)
+- Internal functions in `core.py` (`extract_attachments`, `find_mbox_files`, `sanitize_filename`) are not part of the public API
