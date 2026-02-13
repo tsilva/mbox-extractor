@@ -6,7 +6,7 @@
   [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
   [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://python.org)
 
-  **📬 Recursively extract all attachments from .mbox email archives with a single command**
+  **📨 Extract all attachments from mbox email archives recursively 📎**
 
 </div>
 
