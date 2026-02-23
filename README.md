@@ -12,6 +12,8 @@
 
 ## Features
 
+[![CI](https://github.com/tsilva/mbox-extractor/actions/workflows/release.yml/badge.svg)](https://github.com/tsilva/mbox-extractor/actions/workflows/release.yml)
+
 - **Recursive scanning** - Finds all `.mbox` files in any directory tree
 - **Safe filenames** - Sanitizes attachment names, removing illegal characters
 - **No duplicates** - Uses content-based hashing to prevent overwrites
