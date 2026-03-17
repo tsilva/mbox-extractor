@@ -84,15 +84,33 @@ def extract_attachments(mbox_file, output_dir, show_progress=True):
             if filename:
                 clean_name = sanitize_filename(filename)
                 payload = part.get_payload(decode=True)
+
+                if payload is None:
+                    print(
+                        f"Warning: Could not decode payload for attachment '{filename}', skipping."
+                    )
+                    continue
+
+                if isinstance(payload, str):
+                    payload = payload.encode("utf-8")
+                elif not isinstance(payload, (bytes, bytearray, memoryview)):
+                    print(
+                        f"Warning: Unsupported payload type for attachment '{filename}', skipping."
+                    )
+                    continue
+
                 # Append short MD5 digest to filename for uniqueness
                 digest = hashlib.md5(payload).hexdigest()[:8]
                 base, ext = os.path.splitext(clean_name)
                 unique_name = f"{base}_{digest}{ext}"
                 safe_path = os.path.join(output_dir, unique_name)
 
-                with open(safe_path, 'wb') as f:
-                    f.write(payload)
-                attachment_count += 1
+                try:
+                    with open(safe_path, 'wb') as f:
+                        f.write(payload)
+                    attachment_count += 1
+                except OSError as exc:
+                    print(f"Warning: Could not write attachment '{filename}': {exc}")
 
     if show_progress:
         print(f"Extracted {attachment_count} attachments to '{output_dir}'.")
