@@ -1,6 +1,16 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.12"
+
+[options]
+exclude-newer = "0001-01-01T00:00:00Z" # This has no effect and is included for backwards compatibility when using relative exclude-newer values.
+exclude-newer-span = "P7D"
+
+[manifest]
+constraints = [
+    { name = "guardrails-ai", specifier = "!=0.10.1" },
+    { name = "mistralai", specifier = "!=2.4.6" },
+]
 
 [[package]]
 name = "colorama"
@@ -13,7 +23,7 @@ wheels = [
 
 [[package]]
 name = "mbox-extractor"
-version = "0.1.20"
+version = "0.1.21"
 source = { editable = "." }
 dependencies = [
     { name = "tqdm" },
