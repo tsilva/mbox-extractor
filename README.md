@@ -1,8 +1,10 @@
-<div align="center">
+<p align="center">
   <img src="./logo.png" alt="mbox-extractor" width="420" />
-
-  **📨 Extract all attachments from mbox email archives recursively 📎**
-</div>
+  <br />
+  <!-- repo-tagline:start -->
+  <strong>📨 Extract all attachments from mbox email archives recursively 📎</strong>
+  <!-- repo-tagline:end -->
+</p>
 
 mbox-extractor is a Python CLI and importable package for pulling attachments out of `.mbox` email archives. Point it at a directory, and it recursively finds every `.mbox` file, extracts attachment parts, and writes them beside each archive.
 
